@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title></title>
+	<style type="text/css">
+		*{
+			margin: 0px;
+			padding:0px;
+		}
+		.basc{
+			width: 100%;
+			height: 100vh;
+		}
+		#top{
+			width: 100%;
+			height: 10%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			/*color: #fff;*/
+			font-size: 16px;
+			background-color: rgba(176,196,222,0.5);
+		}
+		#center{
+			width: 100%;
+			height: 78%;
+		}
+	
+		.nav{
+				width: 26%;
+				height: 23%;				
+				border:1px solid #B0C4DE;
+				float: left;
+				margin: 2px;
+				font-size: 14px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			
+			}
+		#footer{
+			width: 100%;
+			height: 12%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border: 1px solid #fff;
+
+		}
+		.tarbar{
+			width: 25%;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			background-color: rgba(176,196,222,0.7);
+			border-left: 1px solid #fff;
+			font-size: 13px;
+		}
+		h3{
+			width: 150px;
+			height: 30px;
+			line-height: 30px;
+			border-bottom: 1px solid #999;
+			margin-top: 20px;
+			padding-left: 10px;
+		}
+		.show{
+			display: block;
+		}
+		#center .na{ 
+			width:100%;
+			height:20%;			
+			display: none;
+			border: 1px solid #abc;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+		
+						
+		}
+		#midd{
+			width:100%;
+			height:80%;
+		}
+		#antv{
+			width:100%;
+			height:80%;
+		}
+		#mountNode{
+			width:100%;
+			height:100%;	
+		}
+
+	</style>
+</head>
+<body>
+<div class="basc">
+	<div id="top">学生业务报表</div>
+	<div id="center">
+		<div id="tital1" class="na" style="display: block;">
+			
+	        <div class="nav" id="sex">表中男女比例</div>
+        	<div class="nav" id="address">所在地</div>
+        	<div class="nav" id="classsex">班级男女比例</div>
+        	<div class="nav" id="classcount">各班学生数量</div>
+        	<div class="nav" id="stujob">学生职位人数</div>
+        	<div class="nav" id="classsex1">班级男女比例</div>
+        	 <div class="nav" id="namedata1">姓氏人数</div> 
+		</div>
+		<div id="tital2" class="na">
+			<div class="nav" id="km">修几门课</div>
+			<div class="nav" id="state">在校状态</div>
+	        <div class="nav" id="namedata">姓氏比率</div>      
+        	<div class="nav" id="stukm">学生课表</div>
+        	<div class="nav" id="classsex2">班级男女比例</div>
+        	<div class="nav" id="sextar">表中男女比例</div>
+        	
+		</div>
+		<div id="tital3" class="na">
+			<div class="nav" id="cscont1">各班学生数量</div>
+	        <div class="nav" id="cscont2">各班学生数量</div>
+        	
+        	
+		</div>
+		<div id="tital4" class="na">
+			<div class="nav" id="addres">所在地</div>
+	        <div class="nav" id="addres1">渐变所在地</div>
+        	<div class="nav" id="namering">姓氏占比</div>        	
+        	
+		</div>
+		<div id="midd">
+			<h3>报表试图</h3><br>
+			<div id="antv"> 
+				<canvas id="mountNode"></canvas>
+			</div>
+			
+		</div>
+	</div>
+	<div id="footer">
+		<div class="tarbar">
+			<img src="../images/column.png" width="35px" height="35px">
+		柱形图</div>
+		<div  class="tarbar">
+			<img src="../images/pie.png"  width="35px" height="35px">
+		饼图</div>
+		<div  class="tarbar">
+			<img src="../images/radar.png"  width="35px" height="35px">
+		雷达图</div>
+		<div  class="tarbar">
+			<img src="../images/other.png"  width="35px" height="35px">
+		其他图表</div>
+	</div>
+</div>
+</body>
+
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/assets/f2/3.3.0/f2.min.js"></script>
+<script type="text/javascript">
+
+	(function()
+		{
+			var tarbarobj=document.getElementsByClassName("tarbar");
+			var titalobj=document.getElementsByClassName("na");
+
+			for(var i = 0; i < tarbarobj.length; i++)
+			{
+				tarbarobj[i].e = i;
+
+				tarbarobj[i].onclick = function()
+				{
+					this.style.backgroundColor = "rgb(176,196,222)";
+					siblings(this).forEach(function(value,index)
+					{
+						value.style.backgroundColor = "rgba(176,196,222,0.7)";
+					})
+
+
+					if(titalobj[this.e].style.display == "")
+					{
+						titalobj[this.e].style.display = "block";
+						
+						for(var j = 0; j < siblings(titalobj[this.e]).length; j++)
+						{
+							siblings(titalobj[this.e])[j].style.display = "";
+						}
+					}
+				}
+			}
+		})();
+
+function siblings(elm) 
+{
+	 var a = [];
+	 var p = elm.parentNode.children;
+	 for(var i = 0; i < p.length; i++) 
+	 {
+	  	if(p[i] !== elm) 
+	  	a.push(p[i]);
+	 }
+	 return a;
+}
+
+var kmobj=document.getElementById("km");
+var sexobj=document.getElementById("sex");
+var addresobj=document.getElementById("address");
+var stateobj=document.getElementById("state");
+var classsexobj=document.getElementById("classsex");
+var classsex1obj=document.getElementById("classsex1");
+var namedataobj=document.getElementById("namedata");
+var namedata1obj=document.getElementById("namedata1");
+
+var classcountobj=document.getElementById("classcount");
+var stujobobj=document.getElementById("stujob");
+var classsex2obj=document.getElementById("classsex2");
+var stukmobj=document.getElementById("stukm");
+var addresobj=document.getElementById("addres");
+var addresobj1=document.getElementById("addres1");
+var cscont1obj=document.getElementById("cscont1");
+var sextarobj=document.getElementById("sextar");
+var nameringobj=document.getElementById("namering");
+var antvobj=document.getElementById("antv");
+
+var natapp="http://q7dxyd.natappfree.cc";
+kmobj.onclick=function()
+{
+	alert(kmobj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"querystukmcount"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			viewCreate(jsondata);
+						
+		}
+	});	
+}
+
+
+sexobj.onclick=function()
+{
+	alert(sexobj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"querysex"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			SexviewCreate(jsondata);
+						
+		}
+	});		
+}
+
+addresobj.onclick=function()
+{
+	alert(addresobj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"queryaddress"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			SexviewCreate(jsondata);
+						
+		}
+	});		
+}
+//学生状态
+stateobj.onclick=function()
+{
+	alert(stateobj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"querystate"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			viewCreate1(jsondata);
+						
+		}
+	});		
+}
+//班级男女比例
+classsexobj.onclick=function()
+{
+	alert(classsexobj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"queryclasssex"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			SexviewCreate1(jsondata);						
+		}
+	});		
+}
+classsex1obj.onclick=function()
+{
+	alert(classsex1obj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"queryclasssex"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			SexviewCreate2(jsondata);						
+		}
+	});		
+}
+//嵌套循环学生课程
+classsex2obj.onclick=function()
+{
+	alert(classsex1obj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"queryclasssex"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			CreateRing2(jsondata);						
+		}
+	});		
+}
+//班级学生数量
+classcountobj.onclick=function()
+{
+	alert(classcountobj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"queryclasscount"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			SexviewCreate(jsondata);						
+		}
+	});		
+}
+//学生各个职位人数
+stujobobj.onclick=function()
+{
+	alert(stujobobj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"queryjobcount"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			SexviewCreate(jsondata);						
+		}
+	});		
+}
+
+//柱形图的学生姓氏人数
+namedata1obj.onclick=function()
+{
+	alert(namedata1obj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"querynamecount"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			SexviewCreate(jsondata);						
+		}
+	});	
+}
+
+addresobj.onclick=function()
+{
+	alert(classcountobj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"queryaddress"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			CreateArea(jsondata);						
+		}
+	});		
+}
+
+//渐变面积图
+addresobj1.onclick=function()
+{
+	alert(addresobj1.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"queryaddress"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			CreateArea1(jsondata);						
+		}
+	});		
+}
+
+//学生姓氏比率图
+namedataobj.onclick=function()
+{
+	alert(namedataobj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"querynamedata"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			CreateRing(jsondata);						
+		}
+	});	
+}
+//其他图表
+nameringobj.onclick=function()
+{
+	alert(nameringobj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"querynamedata"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			CreateRingzhu(jsondata);						
+		}
+	});	
+}
+sextarobj.onclick=function()
+{
+	alert(sextarobj.innerText);
+	$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"querysex"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			CreateRingzhu(jsondata);						
+		}
+	});	
+}
+ stukmobj.onclick=function()
+{
+	alert(stukmobj.innerText);
+	/*$.ajax({
+		type:"post",
+		url:natapp+"/antv",
+		data:{"action":"querynamekname"},
+		dataType:'json',
+		success:function(data){
+			//alert("------>");
+			//alert(data.jsondata);
+			alert(typeof data.jsondata);
+			
+			var jsondata=data.jsondata;
+			CreateRingzhu(jsondata);						
+		}
+	});	*/
+} 
+//-------------------------------------------------
+//创建柱状图方法
+function SexviewCreate(data)
+{
+	 var chart = new F2.Chart({
+		   id: 'mountNode',
+		   pixelRatio: window.devicePixelRatio
+		 });
+	   
+	   chart.source(data, {
+		   sales: {
+			tickCount: 2
+		   }
+	    });
+		 chart.interval().position('name*count');
+		 chart.render();
+}
+//层叠柱状图
+function SexviewCreate1(data)
+{
+	var chart = new F2.Chart({
+		  id: 'mountNode',
+		  pixelRatio: window.devicePixelRatio
+		});
+		chart.source(data);
+		chart.tooltip({
+		  custom: true, // 自定义 tooltip 内容框
+		  onChange: function onChange(obj) {
+		    var legend = chart.get('legendController').legends.top[0];
+		    var tooltipItems = obj.items;
+		    var legendItems = legend.items;
+		    var map = {};
+		    legendItems.map(function(item) {
+		      map[item.name] = _.clone(item);
+		    });
+		    tooltipItems.map(function(item) {
+		      var name = item.sex;
+		      var value = item.value;
+		      if (map[name]) {
+		        map[name].value = value;
+		      }
+		    });
+		    legend.setItems(_.values(map));
+		  },
+		 
+		});
+
+		chart.interval().position('name*count').color('sex').adjust({
+		  type: 'dodge',
+		  marginRatio: 0.05 // 设置分组间柱子的间距
+		});
+		chart.render();
+}
+
+function SexviewCreate2(data)
+{
+	var chart = new F2.Chart({
+		  id: 'mountNode',
+		  pixelRatio: window.devicePixelRatio
+		});
+		chart.source(data);
+		chart.tooltip({
+		  custom: true, // 自定义 tooltip 内容框
+		  onChange: function onChange(obj) {
+		    var legend = chart.get('legendController').legends.top[0];
+		    var tooltipItems = obj.items;
+		    var legendItems = legend.items;
+		    var map = {};
+		    legendItems.map(function(item) {
+		      map[item.name] = _.clone(item);
+		    });
+		    tooltipItems.map(function(item) {
+		      var name = item.sex;
+		      var value = item.value;
+		      if (map[name]) {
+		        map[name].value = value;
+		      }
+		    });
+		    legend.setItems(_.values(map));
+		  },
+		});
+		chart.interval().position('name*count').color('sex').adjust('stack');
+		chart.render();
+}
+
+//创建饼图方法
+function viewCreate(data)
+{
+	var  a="1";	  
+	  var chart = new F2.Chart({
+		  id: 'mountNode',
+		  pixelRatio: window.devicePixelRatio
+		});
+	  	  
+		chart.source(data, {
+		  percent: {
+		    formatter: function formatter(val) {
+		      return val * 100 + '%';
+		    }
+		  }
+		});
+		chart.tooltip(false);
+		
+		chart.coord('polar', {
+		  transposed: true,
+		  radius: 0.85
+		});
+		
+		chart.axis(false);
+		
+		chart.interval().position('a*rid').color('rname', ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0']).adjust('stack').style({
+		  lineWidth: 1,
+		  stroke: '#fff',
+		  lineJoin: 'round',
+		  lineCap: 'round'
+		}).animate({
+		  appear: {
+		    duration: 1200,
+		    easing: 'bounceOut'
+		  }
+		});
+
+		chart.render();
+}
+//创建饼图2
+function viewCreate1(data)
+{
+	var  a="1";	  
+	  var chart = new F2.Chart({
+		  id: 'mountNode',
+		  pixelRatio: window.devicePixelRatio
+		});
+	  	  
+		chart.source(data, {
+		  percent: {
+		    formatter: function formatter(val) {
+		      return val * 100 + '%';
+		    }
+		  }
+		});
+	
+		chart.tooltip(false);
+		
+		chart.coord('polar', {
+		  transposed: true,
+		  radius: 0.85
+		});
+		
+		chart.axis(false);
+		
+		chart.interval().position('a*count').color('name', ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0']).adjust('stack').style({
+		  lineWidth: 1,
+		  stroke: '#fff',
+		  lineJoin: 'round',
+		  lineCap: 'round'
+		}).animate({
+		  appear: {
+		    duration: 1200,
+		    easing: 'bounceOut'
+		  }
+		});
+
+		chart.render();
+}
+//创建环图
+function CreateRing(data)
+{
+	var  a="1";	
+	/*var map = {};
+	data.map(function(obj) {
+	  map[obj.name] = obj.count + '%';
+	});*/
+
+	var chart = new F2.Chart({
+		  id: 'mountNode',
+		  pixelRatio: window.devicePixelRatio,
+		  padding: [20, 'auto']
+		});
+		chart.source(data, {
+		  percent: {
+		    formatter: function formatter(val) {
+		      return val + '%';
+		    }
+		  }
+		});
+		chart.tooltip(false);
+		chart.legend({
+		  position: 'right',
+		 /* itemFormatter: function itemFormatter(val) {
+		    return val + '    ' + map[val];
+		  }*/
+		});
+		chart.coord('polar', {
+		  transposed: true,
+		  innerRadius: 0.7,
+		  radius: 0.85
+		});
+		chart.axis(false);
+		chart.interval().position('a*count').color('name', ['#FE5D4D', '#3BA4FF', '#737DDE']).adjust('stack');
+
+		chart.guide().html({
+		  position: ['50%', '45%'],
+		  html: '<div style="width: 250px;height: 40px;text-align: center;"></div>'
+		});
+		chart.render();
+}
+//创建面积图
+function CreateArea(data)
+{
+	var chart = new F2.Chart({
+		  id: 'mountNode',
+		  pixelRatio: window.devicePixelRatio
+		});
+
+		chart.source(data);
+		chart.tooltip({
+		  showCrosshairs: true
+		});
+		chart.scale({
+		  time: {
+		    range: [0, 1]
+		  },
+		  tem: {
+		    tickCount: 5,
+		    min: 0
+		  }
+		});
+		chart.axis('time', {
+		  label: function label(text, index, total) {
+		    var textCfg = {};
+		    if (index === 0) {
+		      textCfg.textAlign = 'left';
+		    } else if (index === total - 1) {
+		      textCfg.textAlign = 'right';
+		    }
+		    return textCfg;
+		  }
+		});
+		chart.area().position('name*count');
+		chart.line().position('name*count');
+		chart.render();
+}
+function CreateArea1(data)
+{
+	var chart = new F2.Chart({
+		  id: 'mountNode',
+		  pixelRatio: window.devicePixelRatio
+		});
+		chart.source(data, {
+		  time: {
+		    type: 'timeCat',
+		    tickCount: 3,
+		    range: [0, 1]
+		  },
+		  tem: {
+		    tickCount: 5,
+		    min: 0
+		  }
+		});
+
+		chart.axis('name', {
+		  label: function label(text, index, total) {
+		    var textCfg = {};
+		    if (index === 0) {
+		      textCfg.textAlign = 'left';
+		    } else if (index === total - 1) {
+		      textCfg.textAlign = 'right';
+		    }
+		    return textCfg;
+		  }
+		});
+		chart.tooltip({
+		  showCrosshairs: true
+		});
+
+		chart.area().position('name*count').color('l(90) 0:#1890FF 1:#f7f7f7').shape('smooth');
+		chart.line().position('name*count').color('l(90) 0:#1890FF 1:#f7f7f7').shape('smooth');
+		chart.render();
+}
+//创建嵌套循环图
+function CreateRing2(data)
+{
+	var chart = new F2.Chart({
+		  id: 'mountNode',
+		  pixelRatio: window.devicePixelRatio
+		});
+
+		chart.source(data);
+
+		chart.coord('polar', {
+		  transposed: true,
+		  inner: 0.5,
+		  radius: 0.85
+		});
+
+		chart.axis(false);
+		chart.tooltip({
+		  custom: true, // 自定义 tooltip 内容框
+		  onChange: function onChange(obj) {
+		    var legend = chart.get('legendController').legends.top[0];
+		    var tooltipItems = obj.items;
+		    var legendItems = legend.items;
+		    var map = {};
+		    legendItems.map(function(item) {
+		      map[item.name] = _.clone(item);
+		    });
+		    tooltipItems.map(function(item) {
+		      var name = item.name;
+		      var value = item.value;
+		      if (map[name]) {
+		        map[name].value = value;
+		      }
+		    });
+		    legend.setItems(_.values(map));
+		  },
+		  onHide: function onHide() {
+		    var legend = chart.get('legendController').legends.top[0];
+		    legend.setItems(chart.getLegendItems().country);
+		  }
+		});
+		chart.interval().position('name*count').color('sex').adjust('stack');
+		chart.render();
+}
+function CreateRingzhu(data)
+{
+	a='1';
+	var chart = new F2.Chart({
+		  id: 'mountNode',
+		  pixelRatio: window.devicePixelRatio
+		});
+		chart.source(data, {
+			count: {
+		    formatter: function formatter(val) {
+		      return val * 100 + '%';
+		    }
+		  }
+		});
+		chart.legend({
+		  position: 'right',
+		  marker: 'square'
+		});
+		chart.tooltip(false);
+		chart.coord('polar', {
+		  transposed: true,
+		  radius: 0.85,
+		  innerRadius: 0.618
+		});
+		chart.axis(false);
+		chart.interval().position('a*count').color('name', ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0']).adjust('stack').style({
+		  lineWidth: 1,
+		  stroke: '#fff',
+		  lineJoin: 'round',
+		  lineCap: 'round'
+		});
+
+		chart.guide().html({
+		  position: ['50%', '50%'],
+		  html: '<div style="text-align: center;width: 100px;height: 72px;vertical-align: middle;">' + '<p id="number" style="font-size: 28px;margin: 10px 10px 5px;font-weight: bold;"></p>' + '<p id="name" style="font-size: 12px;margin: 0;"></p>' + '</div>'
+		});
+		chart.render();
+
+		chart.interaction('pie-select', {
+		  animate: {
+		    duration: 300,
+		    easing: 'backOut'
+		  },
+		  defaultSelected: {
+		    name: '梁',
+		    count: 0.1,
+		    a: '1'
+		  }, 
+		  onEnd: function onEnd(ev) {
+		    var shape = ev.shape,
+		      data = ev.data,
+		      shapeInfo = ev.shapeInfo,
+		      selected = ev.selected;
+
+		    if (shape) {
+		      if (selected) {
+		        $('#number').css('color', shapeInfo.color);
+		        $('#number').text(data.count * 100 + '%');
+		        $('#name').text(data.name);
+		      } else {
+		        $('#number').text('');
+		        $('#name').text('');
+		      }
+		    }
+		  }
+		});
+}
+
+
+</script>
+</html>

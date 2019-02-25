@@ -1,0 +1,101 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<style>
+	*{
+		margin:0px;
+		padding:0px;
+	}
+	body{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	#basc{
+		width:50%;
+		height:50vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		border: 1px  solid #f00;
+	} 
+	#basc div{
+		width:80%;
+		height:40px;
+		display: flex;
+		justify-content: center;
+		align-items: center;		
+		/*margin-top:15px;/**/
+		margin-top:20px;
+		border-bottom: 1px solid #1874CD;
+	}
+	 input{
+		outline:none;
+		width:80%;
+		height:100%;
+		border:none;				
+	}
+	
+	#basc div.btn1{
+		width:80%;
+		height:50px;
+		border:none;
+		/*border :1px solid #fc0;*/
+	}
+	#btn{
+		outline:none;		
+		width:100%;
+		height:80%;
+		border:none;	
+		background-color:rgba(24,116,205,0.2);
+	}
+	#btn:hover{
+		background-color:rgba(24,116,205,0.6);
+		color: #fff;
+	}
+</style>
+</head>
+<body>
+	<div id="basc">
+	
+				<div>姓名： <input type="text" name="username" placeholder="请输入用户姓名" id="username"> </div>
+				<div>密码：<input type="password" name="userpwd" placeholder="请输入用户密码" id="userpwd"></div>
+				<div class="btn1"><input type="button" value="登录" id="btn"></div>
+		
+	</div>
+</body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript">
+	var  btnobj=document.getElementById("btn");
+	btnobj.onclick=function()
+	{
+		//alert("1111");
+	 	/**var nameval=$("#username").val();
+		var pwdval=$("#userpwd").val(); */
+		var nameObj=document.getElementById("username");
+		var pwdObj=document.getElementById("userpwd");
+		
+		$.ajax({
+			type:"post",
+			url:"http://q7dxyd.natappfree.cc/name",
+			data:{"username":nameObj.value,"userpwd":pwdObj.value,"action":"login"},
+			dataType:'json',
+			success:function(data){
+				alert(data.msg);
+				/* alert(typeof data.contentdata);
+				
+				var jsondata=data.contentdata; */
+				
+				if(data.msg=="success")
+					{
+						window.location.href="./index.html";
+					}
+			}
+		});
+	}	
+	
+</script>
+</html>
