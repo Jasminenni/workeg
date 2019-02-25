@@ -1,0 +1,4 @@
+<!--pages/two/two.wxml-->
+<view class='base'>
+    <view class='title'>{{title}}</view>
+</view>

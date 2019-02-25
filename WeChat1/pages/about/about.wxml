@@ -1,0 +1,5 @@
+<!--pages/about/about.wxml-->
+<view class='base'>
+      <view class='top' bindtap='viewclick' data-text='page1'></view>
+      <view class='content' bindtap='viewclick' data-text='page2'></view>
+</view>

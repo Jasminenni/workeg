@@ -1,0 +1,49 @@
+{
+  "pages": [
+        
+    "pages/home/home",
+    "pages/juhe/juhe",
+    "pages/music/music",
+    "pages/about/about",
+    "pages/one/one",
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/phone/phone",
+    "pages/two/two",
+    "pages/playmc/playmc",
+
+    "pages/musiceg/musiceg",
+    "pages/news/news"
+
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#1296db",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/home/home",
+        "iconPath": "pages/images/h2.png",
+        "selectedIconPath": "pages/images/h1.png"
+      },
+      {
+        "text": "通讯录",
+        "pagePath": "pages/phone/phone",
+        "iconPath": "pages/images/phone1.png",
+        "selectedIconPath": "pages/images/phone.png"
+      },
+      {
+        "text": "智能应用",
+        "pagePath": "pages/about/about",
+        "iconPath": "pages/images/about1.png",
+        "selectedIconPath": "pages/images/about.png"
+      }
+    ]
+  }
+}

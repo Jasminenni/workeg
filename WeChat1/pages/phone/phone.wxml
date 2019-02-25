@@ -1,0 +1,17 @@
+<!--pages/phone/phone.wxml-->
+<view class='base'>
+  <block wx:for="{{[1,2,3,4,5,6,7,8]}}">
+  
+  <view class='row' wx:if="{{index%2==0}}">
+    <view class='img'><image src='../images/peo.png' class='img1' mode='aspectFill'> </image></view>
+    <view>姓名</view>
+    <view>电话号码</view>
+  </view>
+  <view class='row1' wx:else>
+    <view class='img' ><image src='../images/peo.png' class='img1' mode='aspectFill'> </image></view>
+    <view>姓名</view>
+    <view>电话号码</view>
+  </view>
+  
+</block>
+</view>

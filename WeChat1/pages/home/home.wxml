@@ -1,0 +1,19 @@
+<!--pages/home/home.wxml-->
+<view class='base' >
+  <swiper indicator-dots='true' autoplay='true' interval='4000' indicator-active-color='#999' class='top'>
+  <block wx:for="{{imageData}}">
+    <swiper-item>
+      <image src='{{item}}' class='img'></image>
+    </swiper-item>
+  </block> 
+  </swiper> 
+
+  <view class='content'>
+    <block wx:for="{{imgDatas}}">
+      <view class='child' bindtap='imgClick' data-title='{{item.title}}'>
+        <image src='{{item.img}}' class='nav'></image>
+        <view>{{item.title}}</view>
+      </view> 
+    </block>
+  </view>
+</view>

@@ -1,0 +1,12 @@
+<!--pages/news/news.wxml-->
+<view class='base'>
+  <view class='title'>{{newContent.title}}</view>
+  <view class='second'>
+      <view class='author'>{{newContent.author_name}}</view>
+      <view class='time'>{{newContent.date}}</view>
+  </view>
+  <view class='content'>{{newContent.url}}</view>
+
+
+</view>
+

@@ -1,0 +1,13 @@
+<!--pages/playmc/playmc.wxml-->
+
+<view class='base'>
+
+    <view class='title'>{{titals.name}}</view>
+    <view class='author'>{{titals.author}}</view>
+    <view class='content'><image src='{{titals.img}}' class='img'></image></view>
+    <view class='maudio'>
+      <audio poster='{{titals.img}}' src='{{titals.path}}' controls='controls' autoplay='autoplay' loop='loop' author='{{titals.author}}' name='{{titals.name}}' ></audio>
+    </view>
+    
+</view>
+

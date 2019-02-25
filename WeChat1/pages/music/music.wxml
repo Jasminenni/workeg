@@ -1,0 +1,8 @@
+<!--pages/music/music.wxml-->
+<view class='base'>
+  <block wx:for="{{mData}}">
+    <audio poster='{{item.img}}' src='{{item.path}}' controls='controls' autoplay='autoplay' loop='loop' author='{{item.author}}' name='{{item.name}}' id='audio' bindtap='mclick' data-mitem='{{item}}'>
+
+    </audio>
+  </block>
+</view>
